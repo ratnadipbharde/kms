@@ -1,9 +1,10 @@
-package com.emudhra.kms.model;
+package com.emudhra.kms.dto;
 
 import lombok.Data;
 
 @Data
-public class Response {
-    private Object object;
-    private String string;
+public class ResponseDto {
+    private Object token;
+    private String roles;
+    private String error;
 }
