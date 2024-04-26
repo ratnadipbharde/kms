@@ -13,7 +13,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
-public class JwtUitility {
+public class JwtUtility {
 
 	final String SIGNATURE = "ratnadip";
 

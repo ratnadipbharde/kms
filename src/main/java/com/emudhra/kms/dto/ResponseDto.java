@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class ResponseDto {
-    private Object token;
-    private String roles;
-    private String error;
+    private Object responseData;
+    private String message;
 }
