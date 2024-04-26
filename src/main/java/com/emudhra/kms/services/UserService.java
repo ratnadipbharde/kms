@@ -12,4 +12,6 @@ public interface UserService {
     ResponseEntity<LogInResponseDto> userLogin(UserLoginDto userLoginDto);
 
     ResponseEntity<ResponseDto> getUserInfo(String token);
+
+    ResponseEntity<ResponseDto> userLogout(String token);
 }

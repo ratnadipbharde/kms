@@ -96,6 +96,22 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public ResponseEntity<ResponseDto> userLogout(String token) {
+        ResponseDto responseDto=new ResponseDto();
+        if (isLogin(token)&&isAuthorized(token)){
+            UserLoginDto userLoginDto = modelMapper.map(jwtUtility.decodeToken(token), UserLoginDto.class);
+            User user = modelMapper.map(userRepo.getUserByUserName(userLoginDto.getUserName()), User.class);
+            user.setIsLogin(false);
+            userRepo.save(user);
+            responseDto.setMessage("User Logout Successfully");
+            return ResponseEntity.ok(responseDto);
+        }else {
+            responseDto.setMessage("something went wrong");
+            return ResponseEntity.badRequest().body(responseDto);
+        }
+    }
+
     public boolean isLogin(String token){
         if (isAuthorized(token)){
             UserLoginDto userLoginDto = modelMapper.map(jwtUtility.decodeToken(token), UserLoginDto.class);
@@ -105,5 +121,6 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
 
 }

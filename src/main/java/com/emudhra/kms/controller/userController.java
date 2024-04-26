@@ -21,6 +21,11 @@ public class userController {
         return userService.userLogin(userLoginDto);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<ResponseDto> userLogout(@RequestHeader String token){
+        return userService.userLogout(token);
+    }
+
     @PostMapping("/getUserInfo")
     public ResponseEntity<ResponseDto> getUserInfo(@RequestHeader String token){
         return userService.getUserInfo(token);
