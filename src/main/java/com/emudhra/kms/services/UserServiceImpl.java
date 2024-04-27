@@ -123,29 +123,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<ResponseDto> addUserInDatabase(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
-        // Check if the department already exists
-        Department existingDepartment = depertmentRepository.findDepartmentByDepartmentName(user.getDepartment().getDepartmentName());
-        if (existingDepartment != null) {
-            // If department exists, set the existing department in the user
-            user.setDepartment(existingDepartment);
-        } else {
-            // If department doesn't exist, save the department and set it in the user
-            Department newDepartment = modelMapper.map(depertmentRepository.save(user.getDepartment()), Department.class);
-            user.setDepartment(newDepartment);
-        }
-        Role existingRole = roleRepository.findRoleByRoleName(user.getRole().getRoleName());
-        if (existingRole != null) {
-            // If department exists, set the existing department in the user
-            user.setRole(existingRole);
-        } else {
-            // If department doesn't exist, save the department and set it in the user
-            Role newRole = modelMapper.map(roleRepository.save(user.getRole()), Role.class);
-            user.setRole(newRole);
-        }
-        userRepo.save(user); // Save the user
         ResponseDto responseDto = new ResponseDto();
-        responseDto.setResponseData(user);
-        return ResponseEntity.ok(responseDto);
+        if (user.getRole().equals("superadmin")) {
+            // Check if the department already exists
+            Department existingDepartment = depertmentRepository.findDepartmentByDepartmentName(user.getDepartment().getDepartmentName());
+            if (existingDepartment != null) {
+                // If department exists, set the existing department in the user
+                user.setDepartment(existingDepartment);
+            } else {
+                // If department doesn't exist, save the department and set it in the user
+                Department newDepartment = modelMapper.map(depertmentRepository.save(user.getDepartment()), Department.class);
+                user.setDepartment(newDepartment);
+            }
+            Role existingRole = roleRepository.findRoleByRoleName(user.getRole().getRoleName());
+            if (existingRole != null) {
+                // If department exists, set the existing department in the user
+                user.setRole(existingRole);
+            } else {
+                // If department doesn't exist, save the department and set it in the user
+                Role newRole = modelMapper.map(roleRepository.save(user.getRole()), Role.class);
+                user.setRole(newRole);
+            }
+            userRepo.save(user); // Save the user
+            responseDto.setResponseData(user);
+            return ResponseEntity.ok(responseDto);
+        }else {
+            responseDto.setMessage("please login with superadmin credentials");
+            return ResponseEntity.ok(responseDto);
+        }
     }
 
     public boolean isLogin(String token) {
@@ -157,4 +162,6 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+
 }
