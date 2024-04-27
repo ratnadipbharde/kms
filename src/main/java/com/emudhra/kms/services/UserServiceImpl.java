@@ -4,7 +4,11 @@ import com.emudhra.kms.dto.ResponseDto;
 import com.emudhra.kms.dto.UserDto;
 import com.emudhra.kms.dto.UserLoginDto;
 import com.emudhra.kms.dto.LogInResponseDto;
+import com.emudhra.kms.model.Department;
+import com.emudhra.kms.model.Role;
 import com.emudhra.kms.model.User;
+import com.emudhra.kms.repository.DepertmentRepository;
+import com.emudhra.kms.repository.RoleRepository;
 import com.emudhra.kms.repository.UserRepo;
 import com.emudhra.kms.utility.JwtUtility;
 import org.modelmapper.ModelMapper;
@@ -23,16 +27,22 @@ public class UserServiceImpl implements UserService {
     @Autowired
     JwtUtility jwtUtility;
 
+    @Autowired
+    DepertmentRepository depertmentRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
+
     @Override
     public ResponseEntity<LogInResponseDto> userLogin(UserLoginDto userLoginDto) {
         LogInResponseDto responseDto = new LogInResponseDto();
-        User user = null;
+
         try {
-            user = modelMapper.map(userRepo.getUserByUserName(userLoginDto.getUserName()), User.class);
+            User user = modelMapper.map(userRepo.getUserByUserName(userLoginDto.getUserName()), User.class);
             if (user != null && userLoginDto.getUserName() != null && userLoginDto.getPassword() != null) {
                 // User found, proceed with response
                 responseDto.setToken(jwtUtility.genrateToken(userLoginDto));
-                responseDto.setRoles(user.getRole());
+                responseDto.setRoles(user.getRole().getRoleName());
                 user.setIsLogin(true);
                 userRepo.save(user);
                 return ResponseEntity.ok(responseDto);
@@ -43,7 +53,7 @@ public class UserServiceImpl implements UserService {
             }
         } catch (Exception e) {
             // Error occurred during user retrieval
-            responseDto.setError("invallid credential");
+            responseDto.setError("invalid credential");
             return ResponseEntity.badRequest().body(responseDto);
         }
     }
@@ -53,7 +63,6 @@ public class UserServiceImpl implements UserService {
             try {
                 UserLoginDto userLoginDto = jwtUtility.decodeToken(token);
                 User user = modelMapper.map(userRepo.getUserByUserName(userLoginDto.getUserName()), User.class);
-
                 if (user != null && user.getUserName().equals(userLoginDto.getUserName())) {
                     // Here you might want to compare hashed passwords
                     if (user.getPassword().equals(userLoginDto.getPassword())) {
@@ -80,7 +89,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
     public ResponseEntity<ResponseDto> getUserInfo(String token) {
         ResponseDto responseDto = new ResponseDto();
         if (isAuthorized(token) && isLogin(token)) {
@@ -98,29 +106,55 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<ResponseDto> userLogout(String token) {
-        ResponseDto responseDto=new ResponseDto();
-        if (isLogin(token)&&isAuthorized(token)){
+        ResponseDto responseDto = new ResponseDto();
+        if (isLogin(token) && isAuthorized(token)) {
             UserLoginDto userLoginDto = modelMapper.map(jwtUtility.decodeToken(token), UserLoginDto.class);
             User user = modelMapper.map(userRepo.getUserByUserName(userLoginDto.getUserName()), User.class);
             user.setIsLogin(false);
             userRepo.save(user);
             responseDto.setMessage("User Logout Successfully");
             return ResponseEntity.ok(responseDto);
-        }else {
+        } else {
             responseDto.setMessage("something went wrong");
             return ResponseEntity.badRequest().body(responseDto);
         }
     }
 
-    public boolean isLogin(String token){
-        if (isAuthorized(token)){
+    @Override
+    public ResponseEntity<ResponseDto> addUserInDatabase(UserDto userDto) {
+        User user = modelMapper.map(userDto, User.class);
+        // Check if the department already exists
+        Department existingDepartment = depertmentRepository.findDepartmentByDepartmentName(user.getDepartment().getDepartmentName());
+        if (existingDepartment != null) {
+            // If department exists, set the existing department in the user
+            user.setDepartment(existingDepartment);
+        } else {
+            // If department doesn't exist, save the department and set it in the user
+            Department newDepartment = modelMapper.map(depertmentRepository.save(user.getDepartment()), Department.class);
+            user.setDepartment(newDepartment);
+        }
+        Role existingRole = roleRepository.findRoleByRoleName(user.getRole().getRoleName());
+        if (existingRole != null) {
+            // If department exists, set the existing department in the user
+            user.setRole(existingRole);
+        } else {
+            // If department doesn't exist, save the department and set it in the user
+            Role newRole = modelMapper.map(roleRepository.save(user.getRole()), Role.class);
+            user.setRole(newRole);
+        }
+        userRepo.save(user); // Save the user
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setResponseData(user);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    public boolean isLogin(String token) {
+        if (isAuthorized(token)) {
             UserLoginDto userLoginDto = modelMapper.map(jwtUtility.decodeToken(token), UserLoginDto.class);
             User user = modelMapper.map(userRepo.getUserByUserName(userLoginDto.getUserName()), User.class);
             return user.getIsLogin();
-        }else {
+        } else {
             return false;
         }
     }
-
-
 }

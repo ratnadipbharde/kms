@@ -30,4 +30,9 @@ public class userController {
     public ResponseEntity<ResponseDto> getUserInfo(@RequestHeader String token){
         return userService.getUserInfo(token);
     }
+
+    @PostMapping("/addUser")
+    public  ResponseEntity<ResponseDto>addUserInDatabase(@RequestBody UserDto userDto){
+        return userService.addUserInDatabase(userDto);
+    }
 }

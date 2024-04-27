@@ -14,4 +14,6 @@ public interface UserService {
     ResponseEntity<ResponseDto> getUserInfo(String token);
 
     ResponseEntity<ResponseDto> userLogout(String token);
+
+    ResponseEntity<ResponseDto> addUserInDatabase(UserDto userDto);
 }
