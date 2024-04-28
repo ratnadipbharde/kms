@@ -53,3 +53,6 @@ ALTER SEQUENCE department_id_seq RESTART WITH 3 [90036-224]
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
 	at java.base/java.lang.Thread.run(Thread.java:840)
+2024-04-28 21:13:07.874448+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]Remove * FROM APP_USER where USER_NAME='pritam'"; expected "ROLLBACK, REVOKE, RUNSCRIPT, RELEASE, REFRESH"; SQL statement:
+Remove * FROM APP_USER where USER_NAME='pritam' [42001-224]

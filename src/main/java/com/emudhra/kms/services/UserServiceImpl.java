@@ -10,6 +10,7 @@ import com.emudhra.kms.model.User;
 import com.emudhra.kms.repository.DepertmentRepository;
 import com.emudhra.kms.repository.RoleRepository;
 import com.emudhra.kms.repository.UserRepo;
+import com.emudhra.kms.utility.EmailSenderUtility;
 import com.emudhra.kms.utility.JwtUtility;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     JwtUtility jwtUtility;
+
+    @Autowired
+    EmailSenderUtility emailSenderUtility;
 
     @Autowired
     DepertmentRepository depertmentRepository;
@@ -123,8 +127,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<ResponseDto> addUserInDatabase(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
+        user.setPassword("Pass@123");
+        user.setIsLogin(false);
         ResponseDto responseDto = new ResponseDto();
-        if (user.getRole().equals("superadmin")) {
+        if (true) {
             // Check if the department already exists
             Department existingDepartment = depertmentRepository.findDepartmentByDepartmentName(user.getDepartment().getDepartmentName());
             if (existingDepartment != null) {
@@ -146,6 +152,24 @@ public class UserServiceImpl implements UserService {
             }
             userRepo.save(user); // Save the user
             responseDto.setResponseData(user);
+
+            String subject="KMS User Credentials";
+            String body="Dear "+user.getFirstName()+",\n"+"We are pleased to inform you that your account has been successfully created in [KMS].\n" +
+                    "\n" +
+                    "Your login credentials are as follows:\n"+
+            "Username : "+user.getUserName()+"\nPassword : "+user.getPassword()+"\n"+
+                    "\n" +
+                    "For security reasons, we recommend changing your password upon first login. " +
+                    "Please follow the steps below to access your account:\n" +
+                    "\n" +
+                    "1. Visit [System/Platform URL]\n" +
+                    "2. Enter your username and temporary password.\n" +
+                    "3. Follow the prompts to set up your new password.\n" +
+                    "4. Once your password has been changed, you will have full access to your account.\n" +
+                    "\n" +
+                    "If you have any questions or need further assistance, feel free to contact our support " +
+                    "team at [Support Email/Phone Number].\n";
+            emailSenderUtility.sendSimpleMail(user.getEmail(),subject,body);
             return ResponseEntity.ok(responseDto);
         }else {
             responseDto.setMessage("please login with superadmin credentials");
