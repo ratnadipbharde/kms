@@ -24,7 +24,7 @@ public class JwtUtility {
 	UserLoginDto userLogInDto;
 
 
-	public String genrateToken(UserLoginDto userLogInDto) {
+	public String generateToken(UserLoginDto userLoginDto)  {
 		System.out.println(userLogInDto);
 		HashMap<String, Object> claims = new HashMap<>();
 		claims.put("userName", userLogInDto.getUserName());
@@ -36,4 +36,6 @@ public class JwtUtility {
 		Claims claims = Jwts.parser().setSigningKey(SIGNATURE).parseClaimsJws(token).getBody();
 		return modelMapper.map(claims, UserLoginDto.class);
 	}
+
+
 }

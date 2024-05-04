@@ -1,9 +1,10 @@
 package com.emudhra.kms.services;
 
-import com.emudhra.kms.dto.ResponseDto;
+import com.emudhra.kms.dto.*;
+import com.emudhra.kms.dto.LogInResponseDto;
+import com.emudhra.kms.dto.ResetPasswordDto;
 import com.emudhra.kms.dto.UserDto;
 import com.emudhra.kms.dto.UserLoginDto;
-import com.emudhra.kms.dto.LogInResponseDto;
 import com.emudhra.kms.model.Department;
 import com.emudhra.kms.model.Role;
 import com.emudhra.kms.model.User;
@@ -39,28 +40,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<LogInResponseDto> userLogin(UserLoginDto userLoginDto) {
-        LogInResponseDto responseDto = new LogInResponseDto();
-
+        LogInResponseDto logInResponseDto = new LogInResponseDto();
         try {
             User user = modelMapper.map(userRepo.getUserByUserName(userLoginDto.getUserName()), User.class);
-            if (user != null && userLoginDto.getUserName() != null && userLoginDto.getPassword() != null) {
+
+            if (userLoginDto.getUserName() != null && userLoginDto.getPassword() != null) {
                 // User found, proceed with response
-                responseDto.setToken(jwtUtility.genrateToken(userLoginDto));
-                responseDto.setRoles(user.getRole().getRoleName());
+                logInResponseDto.setToken(jwtUtility.generateToken(userLoginDto));
+                logInResponseDto.setRoles(user.getRole().getRoleName());
+                logInResponseDto.setIsFirstLogin(user.getIsFirstLogin());
                 user.setIsLogin(true);
                 userRepo.save(user);
-                return ResponseEntity.ok(responseDto);
+                return ResponseEntity.ok(logInResponseDto);
             } else {
                 // Invalid credentials, return appropriate response
-                responseDto.setError("Invalid credentials");
-                return ResponseEntity.badRequest().body(responseDto);
+                logInResponseDto.setError("Invalid credentials");
+                return ResponseEntity.badRequest().body(logInResponseDto);
             }
+
         } catch (Exception e) {
             // Error occurred during user retrieval
-            responseDto.setError("invalid credential");
-            return ResponseEntity.badRequest().body(responseDto);
+            logInResponseDto.setError("invalid credential");
+            return ResponseEntity.badRequest().body(logInResponseDto);
         }
     }
+
 
     public boolean isAuthorized(String token) {
         if (token != null) {
@@ -125,12 +129,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<ResponseDto> addUserInDatabase(UserDto userDto) {
+    public ResponseEntity<ResponseDto> addUserInDatabase(UserDto userDto, String token) {
         User user = modelMapper.map(userDto, User.class);
+        ResponseDto responseDto = new ResponseDto();
+        if (isAuthorized(token) && user.getDepartment().getDepartmentName().equals("superadmin")) {
         user.setPassword("Pass@123");
         user.setIsLogin(false);
-        ResponseDto responseDto = new ResponseDto();
-        if (true) {
             // Check if the department already exists
             Department existingDepartment = depertmentRepository.findDepartmentByDepartmentName(user.getDepartment().getDepartmentName());
             if (existingDepartment != null) {
@@ -177,6 +181,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public ResponseEntity<ResponseDto> resetPassword(ResetPasswordDto resetPasswordDto, String token) {
+        return null;
+    }
+
     public boolean isLogin(String token) {
         if (isAuthorized(token)) {
             UserLoginDto userLoginDto = modelMapper.map(jwtUtility.decodeToken(token), UserLoginDto.class);
@@ -186,6 +195,10 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+
+
+
 
 
 }

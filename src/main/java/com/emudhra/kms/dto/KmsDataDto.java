@@ -1,14 +1,11 @@
-package com.emudhra.kms.model;
+package com.emudhra.kms.dto;
 
-import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
-@Entity
+@Component
 @Data
-@Table(name = "KMS_DATA")
-public class KmsData {
-    @Id
-    private int id;
+public class KmsDataDto {
     private String uniqueID;
     private String financial_Year;
     private String po_No;

@@ -6,5 +6,6 @@ import lombok.Data;
 public class LogInResponseDto {
     private Object token;
     private String roles;
+    private Boolean isFirstLogin;
     private String error;
 }

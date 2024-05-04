@@ -25,5 +25,6 @@ public class User {
     private String userName;
     private String password;
     private Boolean isLogin;
+    private Boolean isFirstLogin;
 }
 
