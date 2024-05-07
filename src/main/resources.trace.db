@@ -823,3 +823,333 @@ VALUES (9, 'P227', 'FY 21-22', '6500263778', '28-Oct-21', 'Wipro Ltd.', 'Kerala 
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
 	at java.base/java.lang.Thread.run(Thread.java:840)
+2024-05-05 20:33:29.241970+05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "REMARK CHARACTER VARYING(255)": "'28th Feb 24 - LDAP integration completed. 27-Nov-23 - Completed deployment of I... (1099)"; SQL statement:
+insert into kms_data (account_manager,aging,ci_cd_implementation,completed,deployment,development,financial_year,go_live,kick_off,latest_date,po_date,po_no,product,project_id,project_manager,project_name,rag,remark,si_name,uat,uniqueid,vertical,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) [22001-224]
+2024-05-05 20:36:37.164274+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "ALTER TABLE KMS_DATA\000d\000a[*]MODIFY COLUMN REMARK VARCHAR(500)"; expected "., ADD, SET, RENAME, DROP, ALTER"; SQL statement:
+ALTER TABLE KMS_DATA
+MODIFY COLUMN REMARK VARCHAR(500) [42001-224]
+2024-05-05 20:37:36.277431+05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "REMARK CHARACTER VARYING(500)": "'28th Feb 24 - LDAP integration completed. 27-Nov-23 - Completed deployment of I... (1099)"; SQL statement:
+insert into kms_data (account_manager,aging,ci_cd_implementation,completed,deployment,development,financial_year,go_live,kick_off,latest_date,po_date,po_no,product,project_id,project_manager,project_name,rag,remark,si_name,uat,uniqueid,vertical,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) [22001-224]
+2024-05-05 20:46:08.987440+05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "REMARK CHARACTER VARYING(5000)": "U&'19th Mar 24 - Finger print use case is tested and it is working fine. [Feb 16... (10927)"; SQL statement:
+insert into kms_data (account_manager,aging,ci_cd_implementation,completed,deployment,development,financial_year,go_live,kick_off,latest_date,po_date,po_no,product,project_id,project_manager,project_name,rag,remark,si_name,uat,uniqueid,vertical,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) [22001-224]
+2024-05-05 20:57:10.709794+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "CLIENTNAME" not found; SQL statement:
+INSERT INTO KMS_DATA (uniqueID, financial_Year, po_No, po_Date, clientName, projectName, project_ID, product, vertical, account_Manager, kick_Off, development, deployment, uat, go_Live, completed, rag, latest_Date, remark, aging)
+VALUES (
+    'P259',
+    'FY 22-23',
+    'BM/EMDC/V0001/PO/0001',
+    '2022-09-29',
+    'BURGEON MEDIA',
+    'Chhattisgarh Mining Department Khanij',
+    'emAS-emBridge-Ceinsys tech ltd',
+    'embridge client side / emas MFAemAS',
+    'Government',
+    'Sanjeev S',
+    '2022-10-28',
+    '2022-10-28',
+    '2022-10-27',
+    '2022-10-31',
+    'On Hold',
+    'A',
+    'Raghavi',
+    '2024-04-23',
+    '23rd Apr 24 - There is no response from SI on the Go Live dates. As UAT is completed successfully, we are closing the project. When the SI comes back with Go live date the project go live date will be updated. 03-Aug-23 - The Team has started testing in UAT. 28-Oct-22 - Shared emBridge license file. The SI is setting up the UAT for the User testing.',
+    '580'
+) [42122-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.table.Table.getColumn(Table.java:759)
+	at org.h2.command.Parser.parseColumn(Parser.java:1190)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1175)
+	at org.h2.command.Parser.parseInsert(Parser.java:1549)
+	at org.h2.command.Parser.parsePrepared(Parser.java:719)
+	at org.h2.command.Parser.parse(Parser.java:592)
+	at org.h2.command.Parser.parse(Parser.java:564)
+	at org.h2.command.Parser.prepareCommand(Parser.java:483)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1345)
+	at org.h2.server.web.WebApp.query(WebApp.java:1143)
+	at org.h2.server.web.WebApp.query(WebApp.java:1119)
+	at org.h2.server.web.WebApp.process(WebApp.java:245)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:177)
+	at org.h2.server.web.JakartaWebServlet.doGet(JakartaWebServlet.java:129)
+	at org.h2.server.web.JakartaWebServlet.doPost(JakartaWebServlet.java:166)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1736)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2024-05-05 20:58:53.008469+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO KMS_DATA (uniqueID, financialYear, poNo, poDate, clientName, projectName, projectID, product, industry, accountManager, kickOff, development, deployment, uat, goLive, completed, rag, latestDate, remark, aging)\000d\000aVALUES (\000d\000a    'P284',\000d\000a    'FY 22-23',\000d\000a    '16',\000d\000a    '2022-12-22',\000d\000a    'IT Secure Networks',\000d\000a    'Rajkot Smart City',\000d\000a    'eIDAMPSC',\000d\000a    'emSafe-License,emBridge-Client Side Signing,emAS-DSC',\000d\000a    'Government',\000d\000a    'Angel Chethalan Joy',\000d\000a    '2023-04-02',\000d\000a    '2023-04-12',\000d\000a    '2023-05-05',\000d\000a    NULL,\000d\000a    'WIP',\000d\000a    'G',\000d\000a    'Raghavi',\000d\000a    '2024-01-19',\000d\000a    '8th Dec 23 - Share the emSIgner integration documents. 12-July-23 - Client has connected and has asked us to share the patch. The team has shared the patch. We will start with Deployment and configuration. 06-July-23 - Sent multiple mails to Rajkote team, but the team is not responding for the mails or to the calls. Spoke to sales person Bikash on this. According to him emudhra has received the money so asked us to wait till the client's comes back. So moved the project to on-hold. 05-May-23 - Received requirement to develop encryption and decryption utility. 28-Apr-23- Currently the requirement is only for encryption and decryption with HSM. Team is working on this. 14-Apr-23 - Started deployment of emAS. 2-Apr-23 - Project kick off completed. 20-Jan-23 - Submitted HLD for emAS, emSafe, emBridge. Waiting for the update from SI.',\000d\000a    '496[*]'\000d\000a);"; SQL statement:
+INSERT INTO KMS_DATA (uniqueID, financialYear, poNo, poDate, clientName, projectName, projectID, product, industry, accountManager, kickOff, development, deployment, uat, goLive, completed, rag, latestDate, remark, aging)
+VALUES (
+    'P284',
+    'FY 22-23',
+    '16',
+    '2022-12-22',
+    'IT Secure Networks',
+    'Rajkot Smart City',
+    'eIDAMPSC',
+    'emSafe-License,emBridge-Client Side Signing,emAS-DSC',
+    'Government',
+    'Angel Chethalan Joy',
+    '2023-04-02',
+    '2023-04-12',
+    '2023-05-05',
+    NULL,
+    'WIP',
+    'G',
+    'Raghavi',
+    '2024-01-19',
+    '8th Dec 23 - Share the emSIgner integration documents. 12-July-23 - Client has connected and has asked us to share the patch. The team has shared the patch. We will start with Deployment and configuration. 06-July-23 - Sent multiple mails to Rajkote team, but the team is not responding for the mails or to the calls. Spoke to sales person Bikash on this. According to him emudhra has received the money so asked us to wait till the client's comes back. So moved the project to on-hold. 05-May-23 - Received requirement to develop encryption and decryption utility. 28-Apr-23- Currently the requirement is only for encryption and decryption with HSM. Team is working on this. 14-Apr-23 - Started deployment of emAS. 2-Apr-23 - Project kick off completed. 20-Jan-23 - Submitted HLD for emAS, emSafe, emBridge. Waiting for the update from SI.',
+    '496'
+); [42000-224]
+2024-05-05 21:03:34.193650+05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "LATEST_DATE CHARACTER VARYING(255)": "'8th DEc 23 - Share the emSIgner integration documents. 12-July-23 - Client has ... (837)"; SQL statement:
+insert into kms_data (account_manager,aging,ci_cd_implementation,completed,deployment,development,financial_year,go_live,kick_off,latest_date,po_date,po_no,product,project_id,project_manager,project_name,rag,remark,si_name,uat,uniqueid,vertical,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) [22001-224]
+2024-05-06 15:39:53.060309+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]DESC KMS_DATA"; expected "DELETE, DROP"; SQL statement:
+DESC KMS_DATA [42001-224]
+2024-05-06 15:39:58.101684+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]DESCRIBE KMS_DATA"; expected "DELETE, DROP"; SQL statement:
+DESCRIBE KMS_DATA [42001-224]
+2024-05-06 15:40:03.130841+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]DESCRIBE TABLE KMS_DATA"; expected "DELETE, DROP"; SQL statement:
+DESCRIBE TABLE KMS_DATA [42001-224]
+2024-05-06 15:40:30.935823+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]DESCRIBE KMS_DATA"; expected "DELETE, DROP"; SQL statement:
+DESCRIBE KMS_DATA [42001-224]
+2024-05-06 16:37:48.403407+05:30 jdbc[15]: null
+org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-224]
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:218)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:135)
+	at org.h2.Driver.connect(Driver.java:59)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:359)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:201)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:470)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:733)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:712)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection was not closed by the application and is garbage collected [90018-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	... 16 more
+2024-05-06 16:57:15.323968+05:30 jdbc[25]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+INSERT INTO KMS_DATA (
+    uniqueID,
+    financial_Year,
+    po_No,
+    po_Date,
+    si_Name,
+    project_Name,
+    project_ID,
+    product,
+    vertical,
+    account_Manager,
+    kick_Off,
+    development,
+    deployment,
+    uat,
+    go_Live,
+    completed,
+    rag,
+    project_Manager,
+    latest_Date,
+    remark,
+    ci_CD_Implementation,
+    aging
+) VALUES (
+    'P227',
+    'FY 21-22',
+    '6500263778',
+    '28-Oct-21',
+    'Wipro Ltd.',
+    'Kerala Bank',
+    'EIWMWLKB',
+    'emAS-IDAM',
+    'BFSI',
+    'Ramkumar',
+    '8-Aug-22',
+    '16-Nov-22',
+    '16-Nov-22',
+    '12-Jul-23',
+    'TBD',
+    'WIP',
+    'G',
+    'Raghavi',
+    '28-Feb-24',
+    '28th Feb 24 - LDAP integration completed. 27-Nov-23 - Completed deployment of IDAM on all 4 prod servers. The DB is configured with Master slave config.15-Nov-23 - COmpleted deployment of IDAM on 1 prod server. Once client accept the deployment, we will complete on 3 prod servers. 25-July-23 - Biometric device is integrated. This will be used by CBS application to authenticate the users. 13-July-23 - Started with integration of HRMS and CBS with IDAM. 26-May-23 - IDAM demo is planned as the Kerala Bank team has changed and the new team wants to have application over view. 26-Dec-22 - The team is facing an issue connecting with the mail server. We can reconnect once this issue is resolved. 05-Dec-22 - Deployment of IDAM completed. Started with integration of the application. 21-Nov-22 - Waiting for the Kerala Bank team to set up the MYSQL DB. 16-Nov-22 - IDAM patch provided to the customer. [Oct 10 2022] Setting up hardware for IDAM implementation. 27-Oct-22 - Shared the pre requsities related to the applications with Wipro team.
+28-Oct-21 PO received , SOW has been shared to client',
+    '916'
+) [21002-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.dml.Insert.doPrepare(Insert.java:295)
+	at org.h2.command.dml.DataChangeStatement.prepare(DataChangeStatement.java:37)
+	at org.h2.command.Parser.prepareCommand(Parser.java:489)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1345)
+	at org.h2.server.web.WebApp.query(WebApp.java:1143)
+	at org.h2.server.web.WebApp.query(WebApp.java:1119)
+	at org.h2.server.web.WebApp.process(WebApp.java:245)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:177)
+	at org.h2.server.web.JakartaWebServlet.doGet(JakartaWebServlet.java:129)
+	at org.h2.server.web.JakartaWebServlet.doPost(JakartaWebServlet.java:166)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1736)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2024-05-06 17:36:50.176156+05:30 jdbc[37]: java.lang.Exception: Open Stack Trace
+	at org.h2.util.CloseWatcher.register(CloseWatcher.java:85)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:136)
+	at org.h2.util.JdbcUtils.getConnection(JdbcUtils.java:288)
+	at org.h2.server.web.WebServer.getConnection(WebServer.java:811)
+	at org.h2.server.web.WebApp.login(WebApp.java:1039)
+	at org.h2.server.web.WebApp.process(WebApp.java:227)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:177)
+	at org.h2.server.web.JakartaWebServlet.doGet(JakartaWebServlet.java:129)
+	at org.h2.server.web.JakartaWebServlet.doPost(JakartaWebServlet.java:166)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1736)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-224]
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:218)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:135)
+	at org.h2.Driver.connect(Driver.java:59)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:359)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:201)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:470)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:733)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:712)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection was not closed by the application and is garbage collected [90018-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	... 16 more

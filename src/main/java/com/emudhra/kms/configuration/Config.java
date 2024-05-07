@@ -9,7 +9,7 @@ import org.springframework.mail.SimpleMailMessage;
 @Configuration
 public class Config {
     @Bean
-    ModelMapper modelMapper() {
+    public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 

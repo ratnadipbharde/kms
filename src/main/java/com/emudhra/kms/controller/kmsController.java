@@ -5,23 +5,16 @@ import com.emudhra.kms.model.KmsData;
 import com.emudhra.kms.services.KmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/")
 public class kmsController {
     @Autowired
     private KmsService kmsService;
-
-//    @GetMapping("/msg")
-//    public String getMsg(){
-//        return "hello";
-//    }
 
     @GetMapping("/showAllData")
     public ResponseEntity<List<KmsData>> getAllKmsDataFromDB(){
@@ -29,8 +22,12 @@ public class kmsController {
     }
 
     @PostMapping("/saveDataInDB")
-    public ResponseEntity<String> saveDataInDB(KmsDataDto kmsDataDto){
+    public ResponseEntity<String> saveDataInDB(@RequestBody KmsDataDto kmsDataDto){
         return kmsService.saveDataInDB(kmsDataDto);
     }
 
+    @PutMapping("updateKmsData")
+    public ResponseEntity<String> updateKmsDataInDB(@RequestBody KmsDataDto kmsDataDto){
+        return kmsService.updateKmsDataInDB(kmsDataDto);
+    }
 }

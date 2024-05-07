@@ -13,5 +13,7 @@ public interface KmsService {
     ResponseEntity<List<KmsData>> getAllKmsDataFromDB();
 
     ResponseEntity<String> saveDataInDB(KmsDataDto kmsDataDto);
+
+    ResponseEntity<String> updateKmsDataInDB(KmsDataDto kmsDataDto);
 }
 

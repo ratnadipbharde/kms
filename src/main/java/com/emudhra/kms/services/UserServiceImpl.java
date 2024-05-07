@@ -132,7 +132,9 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<ResponseDto> addUserInDatabase(UserDto userDto, String token) {
         User user = modelMapper.map(userDto, User.class);
         ResponseDto responseDto = new ResponseDto();
-        if (isAuthorized(token) && user.getDepartment().getDepartmentName().equals("superadmin")) {
+        UserLoginDto userLoginDto=modelMapper.map(jwtUtility.decodeToken(token),UserLoginDto.class);
+        User user1 = modelMapper.map(userRepo.getUserByUserName(userLoginDto.getUserName()), User.class);
+        if ( user1.getRole().getRoleName().equals("superadmin")) {
         user.setPassword("Pass@123");
         user.setIsLogin(false);
             // Check if the department already exists
@@ -174,11 +176,10 @@ public class UserServiceImpl implements UserService {
                     "If you have any questions or need further assistance, feel free to contact our support " +
                     "team at [Support Email/Phone Number].\n";
             emailSenderUtility.sendSimpleMail(user.getEmail(),subject,body);
-            return ResponseEntity.ok(responseDto);
         }else {
             responseDto.setMessage("please login with superadmin credentials");
-            return ResponseEntity.ok(responseDto);
         }
+        return ResponseEntity.ok(responseDto);
     }
 
     @Override

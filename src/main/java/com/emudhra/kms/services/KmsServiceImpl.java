@@ -36,4 +36,23 @@ public class KmsServiceImpl implements KmsService{
         }
     }
 
+    @Override
+    public ResponseEntity<String> updateKmsDataInDB(KmsDataDto kmsDataDto) {
+        KmsData kmsData=modelMapper.map(kmsDataDto,KmsData.class);
+        kmsData.setSr_no(getSerialNumberByUniqueID(kmsDataDto.getUniqueID()));
+        kmsRepo.save(kmsData);
+        return ResponseEntity.ok("update data Successfully");
+    }
+
+    public Integer getSerialNumberByUniqueID(String uniqueID) {
+        List<KmsData> kmsDataList = kmsRepo.findAll();
+        for (KmsData kmsData : kmsDataList) {
+            if (kmsData.getUniqueID().equals(uniqueID)) {
+                return kmsData.getSr_no(); // Return the KmsData object if uniqueID matches
+            }
+        }
+        return null; // Return null if no matching uniqueID is found
+    }
+
+
 }
