@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface KmsRepo extends JpaRepository<KmsData, Integer> {
-     KmsData getKmsDataByUniqueID(String uniqueID);
+
+    KmsData findByUniqueNumber(String uniqueNumber);
 }

@@ -1,58 +1,86 @@
 package com.emudhra.kms.services;
+
+import com.emudhra.kms.dto.AddRemarkDto;
 import com.emudhra.kms.dto.KmsDataDto;
+import com.emudhra.kms.dto.RemarkDto;
 import com.emudhra.kms.model.KmsData;
+import com.emudhra.kms.model.Remark;
 import com.emudhra.kms.repository.KmsRepo;
+import com.emudhra.kms.repository.RemarkRepo;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
-public class KmsServiceImpl implements KmsService{
+public class KmsServiceImpl implements KmsService {
 
     @Autowired
     KmsRepo kmsRepo;
     @Autowired
+    RemarkRepo remarkRepo;
+    @Autowired
     ModelMapper modelMapper;
 
+
+
     @Override
-    public ResponseEntity<List<KmsData>> getAllKmsDataFromDB() {
-        List<KmsData> kmsData = kmsRepo.findAll();
-        return ResponseEntity.ok(kmsData);
+    public ResponseEntity<List<KmsDataDto>> getAllKmsDataFromDB() {
+        List<KmsData>kmsData=kmsRepo.findAll();
+        System.out.println(kmsData);
+        List<KmsDataDto> kmsDataDtoList = modelMapper.map(kmsData, new TypeToken<List<KmsDataDto>>() {}.getType());
+        return ResponseEntity.ok(kmsDataDtoList);
     }
 
     @Override
-    public ResponseEntity<String> saveDataInDB(KmsDataDto kmsDataDto) {
-        KmsData kmsData=modelMapper.map(kmsDataDto,KmsData.class);
+    public ResponseEntity<String> saveKmsDataInDB(KmsDataDto kmsDataDto) {
         try {
+            KmsData kmsData=modelMapper.map(kmsDataDto,KmsData.class);
+            System.out.println(kmsData);
             kmsRepo.save(kmsData);
-            return ResponseEntity.ok("Data saved successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to save data: " + e.getMessage());
+            return ResponseEntity.ok("save data successfully");
         }
+     catch (Exception e){
+         return ResponseEntity.ok("faild");
+     }
     }
 
     @Override
-    public ResponseEntity<String> updateKmsDataInDB(KmsDataDto kmsDataDto) {
-        KmsData kmsData=modelMapper.map(kmsDataDto,KmsData.class);
-        kmsData.setSr_no(getSerialNumberByUniqueID(kmsDataDto.getUniqueID()));
-        kmsRepo.save(kmsData);
-        return ResponseEntity.ok("update data Successfully");
-    }
-
-    public Integer getSerialNumberByUniqueID(String uniqueID) {
-        List<KmsData> kmsDataList = kmsRepo.findAll();
-        for (KmsData kmsData : kmsDataList) {
-            if (kmsData.getUniqueID().equals(uniqueID)) {
-                return kmsData.getSr_no(); // Return the KmsData object if uniqueID matches
-            }
+    public ResponseEntity<String> addRemarkInProject(AddRemarkDto addRemarkDto) {
+        System.out.println(addRemarkDto);
+        try {
+            KmsData kmsData=kmsRepo.findByUniqueNumber(addRemarkDto.getUniqueNumber());
+            kmsData.getRemarks().add(modelMapper.map(addRemarkDto.getRemarkDto(),Remark.class));
+            kmsRepo.save(kmsData);
+            return ResponseEntity.ok("remark save");
+        }catch (Exception e){
+            return ResponseEntity.ok("faild");
         }
-        return null; // Return null if no matching uniqueID is found
-    }
 
+    }
+    public KmsData getKmsDatafromDB(String uniqueNumber){
+        return kmsRepo.findByUniqueNumber(uniqueNumber);
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
