@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +46,7 @@ public class KmsServiceImpl implements KmsService {
     public ResponseEntity<String> saveKmsDataInDB(KmsDataDto kmsDataDto) {
         try {
             KmsData kmsData=modelMapper.map(kmsDataDto,KmsData.class);
+            kmsData.getRemarks().get(0).setDate(String.valueOf(LocalDateTime.now()));
             System.out.println(kmsData);
             kmsRepo.save(kmsData);
             return ResponseEntity.ok("save data successfully");
@@ -60,9 +62,11 @@ public class KmsServiceImpl implements KmsService {
         try {
             KmsData kmsData=kmsRepo.findByUniqueNumber(addRemarkDto.getUniqueNumber());
             kmsData.getRemarks().add(modelMapper.map(addRemarkDto.getRemarkDto(),Remark.class));
+            kmsData.getRemarks().get(kmsData.getRemarks().size()-1).setDate(String.valueOf(LocalDateTime.now()));
             kmsRepo.save(kmsData);
             return ResponseEntity.ok("remark save");
         }catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.ok("faild");
         }
 
