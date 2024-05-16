@@ -1,5 +1,6 @@
 package com.emudhra.kms.services;
 
+import com.emudhra.kms.dto.AddKmsDataDto;
 import com.emudhra.kms.dto.AddRemarkDto;
 import com.emudhra.kms.dto.KmsDataDto;
 import com.emudhra.kms.dto.RemarkDto;
@@ -10,6 +11,7 @@ import com.emudhra.kms.repository.RemarkRepo;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Limit;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,48 +35,94 @@ public class KmsServiceImpl implements KmsService {
     ModelMapper modelMapper;
 
 
-
     @Override
     public ResponseEntity<List<KmsDataDto>> getAllKmsDataFromDB() {
-        List<KmsData>kmsData=kmsRepo.findAll();
+        List<KmsData> kmsData = kmsRepo.findAll();
         System.out.println(kmsData);
-        List<KmsDataDto> kmsDataDtoList = modelMapper.map(kmsData, new TypeToken<List<KmsDataDto>>() {}.getType());
+        System.out.println(genrateUniqueID());
+        List<KmsDataDto> kmsDataDtoList = modelMapper.map(kmsData, new TypeToken<List<KmsDataDto>>() {
+        }.getType());
+        kmsDataDtoList.forEach(kmsDataDto -> Collections.reverse(kmsDataDto.getRemarks()));
         return ResponseEntity.ok(kmsDataDtoList);
     }
 
     @Override
-    public ResponseEntity<String> saveKmsDataInDB(KmsDataDto kmsDataDto) {
+    public ResponseEntity<String> saveKmsDataInDB(AddKmsDataDto addKmsDataDto) {
+
         try {
-            KmsData kmsData=modelMapper.map(kmsDataDto,KmsData.class);
-            kmsData.getRemarks().get(0).setDate(String.valueOf(LocalDateTime.now()));
+            KmsData kmsData = modelMapper.map(addKmsDataDto, KmsData.class);
+            Remark remark = new Remark();
+            remark.setRemark("Record Created");
+            remark.setDate(String.valueOf(LocalDateTime.now()));
+            kmsData.getRemarks().add(remark);
             System.out.println(kmsData);
+            kmsData.setUniqueNumber(genrateUniqueID());
             kmsRepo.save(kmsData);
             return ResponseEntity.ok("save data successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("faild");
         }
-     catch (Exception e){
-         return ResponseEntity.ok("faild");
-     }
+
     }
 
     @Override
-    public ResponseEntity<String> addRemarkInProject(AddRemarkDto addRemarkDto) {
-        System.out.println(addRemarkDto);
-        try {
-            KmsData kmsData=kmsRepo.findByUniqueNumber(addRemarkDto.getUniqueNumber());
-            kmsData.getRemarks().add(modelMapper.map(addRemarkDto.getRemarkDto(),Remark.class));
-            kmsData.getRemarks().get(kmsData.getRemarks().size()-1).setDate(String.valueOf(LocalDateTime.now()));
-            kmsRepo.save(kmsData);
-            return ResponseEntity.ok("remark save");
-        }catch (Exception e){
-            e.printStackTrace();
-            return ResponseEntity.ok("faild");
+    public ResponseEntity<String> addRemarkInProject(String uniqueNumber, RemarkDto remarkDto) {
+        System.out.println("Remark : " + remarkDto);
+        if (isUniqueNumberIsExist(uniqueNumber)) {
+            try {
+                KmsData kmsData = kmsRepo.findByUniqueNumber(uniqueNumber);
+                Remark remark = new Remark();
+                kmsData.getRemarks().get(kmsData.getRemarks().size() - 1).setRemark(remarkDto.getRemark());
+                kmsData.getRemarks().get(kmsData.getRemarks().size() - 1).setDate(String.valueOf(LocalDateTime.now()));
+                System.out.println(kmsData);
+                kmsRepo.save(kmsData);
+                return ResponseEntity.ok("remark save");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.ok("faild");
+            }
+        } else {
+            return ResponseEntity.ok("faild! project data missing");
         }
 
     }
-    public KmsData getKmsDatafromDB(String uniqueNumber){
+
+    @Override
+    public KmsData getKmsDataByUniqueID(String uniqueNumber) {
+        KmsData kmsData = kmsRepo.findByUniqueNumber(uniqueNumber);
+        Collections.reverse(kmsData.getRemarks());
+        return kmsData;
+    }
+
+    public KmsData getKmsDatafromDB(String uniqueNumber) {
         return kmsRepo.findByUniqueNumber(uniqueNumber);
     }
 
+    public boolean isUniqueNumberIsExist(String uniqueNumber) {
+        try {
+            return kmsRepo.existsByUniqueNumber(uniqueNumber);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public String genrateUniqueID() {
+        List<KmsData> kmsData = kmsRepo.findAll();
+        String uniqueNumber;
+        int num = 10;
+        for (int i = 1; i < num; i++) {
+            uniqueNumber = "P" + (kmsData.size() + i);
+            if (!isUniqueNumberIsExist(uniqueNumber)) {
+                return uniqueNumber;
+            } else {
+                num++;
+            }
+        }
+        return null;
+    }
 }
 
 

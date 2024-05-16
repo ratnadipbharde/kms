@@ -1,5 +1,6 @@
 package com.emudhra.kms.controller;
 
+import com.emudhra.kms.dto.AddKmsDataDto;
 import com.emudhra.kms.dto.AddRemarkDto;
 import com.emudhra.kms.dto.KmsDataDto;
 import com.emudhra.kms.dto.RemarkDto;
@@ -38,18 +39,19 @@ public class kmsController {
     }
 
     @PostMapping("/addProject")
-    public ResponseEntity<String> saveKmsDataInDB(@RequestBody KmsDataDto kmsDataDto){
-        return kmsService.saveKmsDataInDB(kmsDataDto);
+    public ResponseEntity<String> addKmsProjectDataInDB(@RequestBody AddKmsDataDto addKmsDataDto){
+        System.out.println(addKmsDataDto);
+        return kmsService.saveKmsDataInDB(addKmsDataDto);
     }
 
     @PostMapping("/addRemark")
-    public ResponseEntity<String>addRemarkInProject(@RequestBody AddRemarkDto addRemarkDto){
-        return kmsService.addRemarkInProject(addRemarkDto);
+    public ResponseEntity<String>addRemarkInProject(@RequestParam String uniqueNumber,@RequestBody RemarkDto remarkDto){
+        return kmsService.addRemarkInProject(uniqueNumber,remarkDto);
     }
 
-    @PostMapping("/getdata")
-    public KmsData getdata(@RequestParam String uniqueNumber){
-        return kmsRepo.findByUniqueNumber(uniqueNumber);
+    @PostMapping("/getDataByUniqueID")
+    public KmsData getKmsDataByUniqueID(@RequestParam String uniqueNumber){
+        return kmsService.getKmsDataByUniqueID(uniqueNumber);
     }
 
 

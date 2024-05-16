@@ -1,5 +1,6 @@
 package com.emudhra.kms.services;
 
+import com.emudhra.kms.dto.AddKmsDataDto;
 import com.emudhra.kms.dto.AddRemarkDto;
 import com.emudhra.kms.dto.KmsDataDto;
 import com.emudhra.kms.dto.RemarkDto;
@@ -14,8 +15,12 @@ public interface KmsService {
 
     ResponseEntity<List<KmsDataDto>> getAllKmsDataFromDB();
 
-    ResponseEntity<String> saveKmsDataInDB(KmsDataDto kmsDataDto);
+    ResponseEntity<String> saveKmsDataInDB(AddKmsDataDto addKmsDataDto);
 
-    ResponseEntity<String> addRemarkInProject(AddRemarkDto addRemarkDto);
+    ResponseEntity<String> addRemarkInProject(String uniqueNumber,RemarkDto remarkDto);
+
+    KmsData getKmsDataByUniqueID(String uniqueNumber);
+
+    String genrateUniqueID();
 }
 
