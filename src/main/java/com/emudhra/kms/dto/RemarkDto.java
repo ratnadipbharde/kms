@@ -8,5 +8,4 @@ import org.springframework.stereotype.Component;
 @Data
 public class RemarkDto {
     private String remark;
-
 }

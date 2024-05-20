@@ -48,7 +48,6 @@ public class KmsServiceImpl implements KmsService {
 
     @Override
     public ResponseEntity<String> saveKmsDataInDB(AddKmsDataDto addKmsDataDto) {
-
         try {
             KmsData kmsData = modelMapper.map(addKmsDataDto, KmsData.class);
             Remark remark = new Remark();
@@ -72,7 +71,6 @@ public class KmsServiceImpl implements KmsService {
         if (isUniqueNumberIsExist(uniqueNumber)) {
             try {
                 KmsData kmsData = kmsRepo.findByUniqueNumber(uniqueNumber);
-                Remark remark = new Remark();
                 kmsData.getRemarks().get(kmsData.getRemarks().size() - 1).setRemark(remarkDto.getRemark());
                 kmsData.getRemarks().get(kmsData.getRemarks().size() - 1).setDate(String.valueOf(LocalDateTime.now()));
                 System.out.println(kmsData);
@@ -124,15 +122,3 @@ public class KmsServiceImpl implements KmsService {
         return null;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

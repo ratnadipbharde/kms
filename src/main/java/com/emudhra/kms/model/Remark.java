@@ -11,10 +11,7 @@ public class Remark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String remark;
-
     private String date;
-
 }
 

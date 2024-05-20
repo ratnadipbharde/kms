@@ -13,5 +13,4 @@ public class KmsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KmsApplication.class, args);
 	}
-
 }

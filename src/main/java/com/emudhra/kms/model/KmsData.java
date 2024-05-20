@@ -64,5 +64,4 @@ public class KmsData {
     @JoinColumn(name = "kms_data_id_fk", referencedColumnName = "id")
     private List<Remark> remarks = new ArrayList<>();
 
-
 }
